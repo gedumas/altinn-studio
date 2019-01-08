@@ -39,12 +39,19 @@ namespace AltinnCore.Designer
         public IConfiguration Configuration { get; }
 
         /// <summary>
+        /// Gets the Logger functionality
+        /// </summary>
+        private readonly ILogger _logger;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class
         /// </summary>
         /// <param name="configuration">the configuration for designer</param>
-        public Startup(IConfiguration configuration)
+        /// <param name="logger">The logger</param>
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
+            _logger = logger;
         }
 
         /// <summary>
@@ -162,6 +169,7 @@ namespace AltinnCore.Designer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                _logger.LogInformation("Starting Altinn Studio in development mode");
             }
             else
             {

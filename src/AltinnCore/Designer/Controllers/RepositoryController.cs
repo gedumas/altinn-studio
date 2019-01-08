@@ -8,6 +8,7 @@ using AltinnCore.Common.Services.Interfaces;
 using AltinnCore.RepositoryClient.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace AltinnCore.Designer.Controllers
@@ -20,6 +21,7 @@ namespace AltinnCore.Designer.Controllers
         private readonly IGitea _giteaApi;
         private readonly ServiceRepositorySettings _settings;
         private readonly ISourceControl _sourceControl;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RepositoryController"/> class.
@@ -27,11 +29,12 @@ namespace AltinnCore.Designer.Controllers
         /// <param name="giteaWrapper">the gitea wrapper</param>
         /// <param name="repositorySettings">Settings for repository</param>
         /// <param name="sourceControl">the source control</param>
-        public RepositoryController(IGitea giteaWrapper, IOptions<ServiceRepositorySettings> repositorySettings, ISourceControl sourceControl)
+        public RepositoryController(IGitea giteaWrapper, IOptions<ServiceRepositorySettings> repositorySettings, ISourceControl sourceControl, ILogger<RepositoryController> logger)
         {
             _giteaApi = giteaWrapper;
             _settings = repositorySettings.Value;
             _sourceControl = sourceControl;
+            _logger = logger;
         }
 
         /// <summary>
@@ -86,10 +89,23 @@ namespace AltinnCore.Designer.Controllers
         /// <returns>The repository status</returns>
         [Authorize]
         [HttpGet]
-        public RepoStatus RepoStatus(string owner, string repository)
+        public ActionResult<RepoStatus> RepoStatus(string owner, string repository)
         {
-            _sourceControl.FetchRemoteChanges(owner, repository);
-            return _sourceControl.RepositoryStatus(owner, repository);
+            try
+            {
+                _sourceControl.FetchRemoteChanges(owner, repository);
+                return _sourceControl.RepositoryStatus(owner, repository);
+            }
+            catch (LibGit2Sharp.RepositoryNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "Repo not found");
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Repostatus failed for " + owner + "/" + repository);
+                return StatusCode(500);
+            }
         }
 
         /// <summary>
