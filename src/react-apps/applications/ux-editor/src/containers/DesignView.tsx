@@ -50,9 +50,9 @@ class DesignView extends React.Component<IDesignerPreviewProps, IDesignerPreview
       return;
     }
     if (sourceContainerId === destinationContainerId) {
-      const { layoutOrder } = this.state;
-      const updatedOrder: string[] = layoutOrder[sourceContainerId];
-      const [moveItem] = updatedOrder.splice(updatedOrder.indexOf(id), 1);
+      const layoutOrder = { ...this.state.layoutOrder };
+      const updatedOrder: string[] = [...layoutOrder[sourceContainerId]];
+      const moveItem = updatedOrder.splice(updatedOrder.indexOf(id), 1)[0];
       updatedOrder.splice(index, 0, moveItem);
       this.setState((state: IDesignerPreviewState) => update<IDesignerPreviewState>(state, {
         layoutOrder: {
@@ -65,15 +65,15 @@ class DesignView extends React.Component<IDesignerPreviewProps, IDesignerPreview
         },
       }));
     } else {
-      const { layoutOrder } = this.state;
-      const updatedSource: string[] = layoutOrder[sourceContainerId];
-      const updatedDestination: string[] = layoutOrder[destinationContainerId];
+      const layoutOrder = { ...this.state.layoutOrder };
+      const updatedSource: string[] = [...layoutOrder[sourceContainerId]];
+      const updatedDestination: string[] = [...layoutOrder[destinationContainerId]];
 
       if (updatedDestination.indexOf('placeholder') > -1) {
         // remove the placeholder in the destination
         updatedDestination.splice(updatedDestination.indexOf('placeholder'), 1);
       }
-      const [moveItem] = updatedSource.splice(layoutOrder[sourceContainerId].indexOf(id), 1);
+      const moveItem = updatedSource.splice(layoutOrder[sourceContainerId].indexOf(id), 1)[0];
       updatedDestination.splice(index, 0, moveItem);
       this.setState((state: IDesignerPreviewState) => update<IDesignerPreviewState>(state, {
         layoutOrder: {
