@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altinn.Platform.Register", "Register\Altinn.Platform.Register.csproj", "{8434DA77-B903-47F4-84E9-B9CF811C84F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C8413630-9002-43F9-9041-FFABF5E1764F}"
+	ProjectSection(SolutionItems) = preProject
+		Altinn3.ruleset = Altinn3.ruleset
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8434DA77-B903-47F4-84E9-B9CF811C84F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8434DA77-B903-47F4-84E9-B9CF811C84F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8434DA77-B903-47F4-84E9-B9CF811C84F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8434DA77-B903-47F4-84E9-B9CF811C84F4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B085564-2338-4128-90E6-C2D0FEE40C43}
+	EndGlobalSection
+EndGlobal
